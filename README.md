@@ -1,2 +1,2 @@
 # dotfiles
-pastas com meus arquivos de configuração dos aplicativos debian
+Meus arquivos de configuração dos aplicativos debian
