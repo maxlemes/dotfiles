@@ -1,0 +1,5 @@
+[user]
+	email = maxvlemes@gmail.com
+	name = Max Lemes
+[credential]
+	helper = cache
