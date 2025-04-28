@@ -1,0 +1,124 @@
+# ====================
+# LS com cores e opções
+# ====================
+#export LS_OPTIONS='--color=auto'
+#eval "`dircolors`"
+export LS_COLORS="$LS_COLORS:*.R=38;5;92"  # Roxo para arquivos R
+export LS_COLORS="$LS_COLORS:*.RData=38;5;92" # Roxo para arquivos RData
+#export LS_COLORS='*.py=36' # Verde para arquivos Python
+
+
+# Alias para 'ls' com exa e ícones
+alias ls='exa --icons'
+alias ll='exa --icons -l'
+alias la='exa --icons -lha'
+alias l='exa --icons -lh'
+
+#alias ls='ls $LS_OPTIONS'
+#alias ls='exa --icons'
+#alias ll='ls $LS_OPTIONS -l'
+#alias la='ls $LS_OPTIONS -lha'
+#alias l='ls -lh'
+
+# ====================
+# Navegação de diretórios
+# ====================
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias c='clear'
+alias mkdirp='mkdir -p'
+
+alias lt="tree -d"
+alias ltf="tree -l"
+alias lta="tree -a"
+alias ft="find . -type d | fzf --preview='tree -C {} | head -n 50'"
+
+# ====================
+# Busca
+# ====================
+alias f='fzf'
+alias ff='find . -type f | fzf'
+alias rg='rg --smart-case'
+alias rgl='rg --line-number'
+
+# ====================
+# IP e rede
+# ====================
+alias meuip='curl ifconfig.me; echo;'
+alias ip='ip -c'
+alias ping='grc ping'
+alias tail='grc tail'
+alias ps='grc ps'
+alias netstat='grc netstat'
+alias dig='grc dig'
+alias traceroute='grc traceroute'
+
+# ====================
+# Dev
+# ====================
+alias py3='python3'
+alias grep='grep --color'
+alias egrep='egrep --color'
+alias lvim='$HOME/.local/bin/vim'
+alias teclado="setxkbmap -model abnt2 -layout us -variant intl"
+
+# ====================
+# Python / Django com Poetry
+# ====================
+alias blue="poetry run blue"
+alias isort="poetry run isort"
+alias django_proj="poetry run django-admin startproject"
+alias django_app="poetry run django-admin startapp"
+alias venv='python3 -m venv venv && source venv/bin/activate'
+alias act='source venv/bin/activate'
+alias deact='deactivate'
+
+# ====================
+# Git
+# ====================
+alias gs='git status'
+alias ga='git add .'
+alias gc='git commit -m'
+alias gp='git push'
+alias gl='git pull'
+alias gd='git diff'
+alias gco='git checkout'
+alias gb='git branch'
+alias gclone='git clone'
+alias gundo='git reset --soft HEAD~1'
+
+# ====================
+# Edição
+# ====================
+alias se='sudoedit'
+alias v='vim'
+alias nv='nvim'
+alias cat='batcat --paging=never'
+
+# ====================
+# Sistema
+# ====================
+alias update='sudo apt update && sudo apt upgrade'
+alias fixbroken='sudo apt --fix-broken install'
+alias rmall='rm -rf'
+alias please='sudo $(fc -ln -1)'
+
+# ====================
+# Atalhos úteis
+# ====================
+alias reload='source ~/.zshrc'
+alias aliases='source ~/.zsh_aliases'
+alias path='echo $PATH | tr ":" "\n"'
+alias ports='ss -tuln'
+alias mem='free -h'
+alias cpu='lscpu'
+alias temp='sensors'
+
+# ====================
+# TeX Live
+# ====================
+alias tlmgr="tlmgr --usermode"
+alias texrun='pdflatex -interaction=nonstopmode'
+alias cleanaux='find . -type f \( -name "*.aux" -o -name "*.log" -o -name "*.out" \) -delete'
+

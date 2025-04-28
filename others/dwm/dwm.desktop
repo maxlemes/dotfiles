@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=DWM
+Comment=Suckless Tiling Window Manager
+Exec=/home/max/.dwm/autostart.sh
+TryExec=dwm
+Icon=dwm
+#Type=XSession
+Type=Application
+X-LightDM-DesktopName=dwm
+DesktopNames=dwm
+Keywords=tilling;wm;manager;
