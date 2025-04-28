@@ -52,6 +52,7 @@ shopt -u dotglob
 rm "$destino/criar_links.sh"
 rm "$destino/MesloGS"
 rm "$destino/zsh.md"
+rm "$destino/.dwm/.dwm"
 rm ~/.local/share/fonts/MesloGS
 
 echo "Links simbólicos criados com sucesso!"
