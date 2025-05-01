@@ -4,8 +4,8 @@
 echo "Iniciando o autostart.sh" > ~/.dwm/autostart.log
 
 # configura a barra do dwm
-~/.dwm/bar.sh &
-
+#~/.dwm/bar.sh &
+slstatus &
 # Liga o teclado numérico
 numlockx on  &
 
