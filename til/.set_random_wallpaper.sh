@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Caminho para a pasta onde estão as imagens
-IMAGEM_DIR="/mnt/compartilhada/Imagens/Wallpapers/"
+IMAGEM_DIR="/mnt/compartilhada/imagens/wallpapers/"
 
 # Desabilita o globbing no Bash (evita que caracteres especiais como parênteses sejam interpretados)
 shopt -u nullglob
