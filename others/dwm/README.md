@@ -45,4 +45,3 @@ entre na pasta slstatus/ e Compile
 make 
 sudo make install
 ```
-
