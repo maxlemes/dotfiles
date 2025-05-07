@@ -86,11 +86,6 @@ export PATH="/usr/local/texlive/2024/bin/x86_64-linux:$PATH"
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # ------------------------------------------------------------------------------
-# ⛔ Desliga o screensaver e o gerenciamento de energia da tela
-# ------------------------------------------------------------------------------
-PS0=$(xset s off; xset -dpms;)
-
-# ------------------------------------------------------------------------------
 # 🔎 FZF + Ripgrep para busca rápida de arquivos
 # ------------------------------------------------------------------------------
 if type rg &> /dev/null; then
@@ -102,3 +97,10 @@ fi
 # 🎨 Aliases personalizados (em arquivo separado)
 # ------------------------------------------------------------------------------
 [[ -f ~/.zsh_aliases ]] && source ~/.zsh_aliases
+
+setxkbmap -model abnt -layout us -variant intl
+# ------------------------------------------------------------------------------
+# ⛔ Desliga o screensaver e o gerenciamento de energia da tela
+# ------------------------------------------------------------------------------
+xset s off >/dev/null 2>&1
+xset -dpms  >/dev/null 2>&1

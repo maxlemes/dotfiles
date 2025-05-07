@@ -25,7 +25,7 @@ sh -c "$(wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/ins
 Agora, instale o Powerlevel10k, um tema avançado para o Zsh:
 
 ```bash
-git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.oh-my-zsh/themes/powerlevel10k
 ```
 
 ## 4. Instalar o `zsh-history-substring-search`
@@ -33,8 +33,7 @@ git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$
 Instale o plugin `zsh-history-substring-search`, que permite pesquisar o histórico de comandos com substrings:
 
 ```bash
-git clone https://github.com/zsh-users/zsh-history-substring-search
-${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-history-substring-search
+git clone https://github.com/zsh-users/zsh-history-substring-search ~/.oh-my-zsh/plugins/zsh-history-substring-search
 ```
 
 ## 5. Instalar o `zsh-autosuggestions`
@@ -42,7 +41,7 @@ ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-history-substring-search
 O `zsh-autosuggestions` sugere comandos com base no seu histórico:
 
 ```bash
-git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/plugins/zsh-autosuggestions
 ```
 
 ## 6. Instalar o `zsh-syntax-highlighting`
@@ -50,7 +49,7 @@ git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-m
 O plugin `zsh-syntax-highlighting` adiciona realce de sintaxe para comandos no Zsh:
 
 ```bash
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/plugins/zsh-syntax-highlighting
 ```
 
 ## 7. Instalar o `exa` (substituto do `ls`)
@@ -75,7 +74,6 @@ ln -sf MesloGS ~/.local/share/fonts
 2. A fonte **MesloLGS NF** será instalada. Após isso, configure o alacrity.
 Abra o arquivo de configuração do Alacritty (`/.config/alacritty/alacritty.yml`) e adicione ou edite as seguintes linhas:
 ```bash
-font:
    normal:
      family: MesloLGS NF
      style: Regular

@@ -8,7 +8,6 @@ dpkg --get-selections > pacotes_instalados.txt
 
 No outro computador, você pode usar o arquivo de pacotes para instalar todos os pacotes listados com o seguinte comando:
 
-sudo dpkg --set-selections < pacotes_instalados.txt
-sudo apt-get dselect-upgrade
+sudo xargs -a pacotes_instalados.txt apt-get install -y
 
 Isso instalará todos os pacotes listados no arquivo pacotes_instalados.txt.
