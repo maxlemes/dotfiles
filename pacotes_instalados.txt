@@ -13,7 +13,6 @@ bash-completion
 bat
 bind9-dnsutils
 bind9-host
-brave-browser
 bsdutils
 btop
 build-essential
@@ -21,7 +20,6 @@ busybox
 bzip2
 ca-certificates
 calibre
-code
 console-setup
 coreutils
 cpio
@@ -44,7 +42,6 @@ dmsetup
 doc-debian
 dosfstools
 dpkg
-dropbox
 e2fsprogs
 exa
 fdisk
@@ -193,7 +190,6 @@ man-db
 manpages
 mawk
 media-types
-microsoft-edge-stable
 mime-support
 mount
 mpv
@@ -208,7 +204,6 @@ nftables
 nodejs
 npm
 numlockx
-obsidian
 okular
 openssh-client
 os-prober
@@ -217,7 +212,6 @@ pciutils
 pdftk
 perl
 perl-base
-positron
 procps
 python3-reportbug
 r-base
@@ -227,7 +221,6 @@ sed
 sensible-utils
 shim-signed
 software-properties-common
-sublime-text
 suckless-tools
 systemd
 systemd-sysv
