@@ -122,3 +122,14 @@ alias tlmgr="tlmgr --usermode"
 alias texrun='pdflatex -interaction=nonstopmode'
 alias cleanaux='find . -type f \( -name "*.aux" -o -name "*.log" -o -name "*.out" \) -delete'
 
+# ====================
+# Compilar e abrir o zathura
+# ====================
+alias texz='pdflatex -synctex=1'
+alias vpdf='zathura'
+# Função para compilar e abrir o PDF
+compilar() {
+  nome="${1%.tex}"
+  pdflatex -synctex=1 "$nome.tex" && pgrep -f "zathura $nome.pdf" >/dev/null || zathura "$nome.pdf" &
+}
+
