@@ -214,6 +214,7 @@ perl
 perl-base
 procps
 python3-reportbug
+qalc
 r-base
 readline-common
 reportbug

@@ -21,85 +21,83 @@ exec execstr
 endfunction
 nmap  :call SyncTexForward()
 
-function! InsertLines(num)
-    " Acrescenta 10 linhas em branco no arquivo
-    silent execute '1put! =repeat(\"\n\", 12)'
-    let l:pattern ='\vProcesso nº\s+\zs\d{5}\.\d{6}\/\d{4}-\d{2}'
-    let l:processo = '### ' . FindMatch(l:pattern)
-    silent execute ':call setline(1, l:processo)'
-    let l:pattern1 ='\v(((a|o) Docente)|(Professora?)|(servidora?)|(Servidora?))'
-    let l:pattern2 ='\v(((a|o) Docente )|(Professora? )|(servidora? )|(Servidora? ))\zs([^,]+)'
-    let l:processo = FindMatch(l:pattern1) . ': ' . FindMatch(l:pattern2)
-    silent execute ':call setline(2, l:processo)'
-    
-    let l:pattern ='\v(contar de\s+)\zs([^,]+)'
-      " Procura a última ocorrência do padrão no buffer
-      let l:linha = search(l:pattern, 'b')
-      " Se a linha for encontrada (diferente de 0)
-      if l:linha > 0
-        " Obtenha o conteúdo da linha correspondente
-        let l:conteudo = getline(l:linha)
-        " Extraia a correspondência usando o padrão
-        let l:pattern = matchstr(l:conteudo, l:pattern)
-      endif
-
-    let l:processo = 'Última Progressão: ' . FindMatch(l:pattern)
-    silent execute ':call setline(3, l:processo)'
-    let l:pattern ='\v(Classe:\s+)\zs\d{1}'
-    let l:processo = 'Classe Atual: ' . FindMatch(l:pattern)
-    silent execute ':call setline(4, l:processo)'
-    let l:pattern ='\v(Padrão:\s+)\zs\d{3}'
-    let l:processo = 'Nível Atual: ' . FindMatch(l:pattern)
-    silent execute ':call setline(5, l:processo)'
-    let l:pattern ='\vTitulação: (.*- )?\zs[A-Za-z]+'
-    let l:processo = 'Titulação: ' . FindMatch(l:pattern)
-    silent execute ':call setline(6, l:processo)'
-    let l:pattern ='\vLotação:\s+\d{9}\s+-\s+\zs[^	]+'
-    let l:processo = 'Lotação: ' . FindMatch(l:pattern)
-    silent execute ':call setline(7, l:processo)'
-    let l:pattern ='\v(\d{5}\/\d{9}\s+-\s+)\zs[A-Za-z -.]+'
-    let l:processo = 'Unidade: ' . FindMatch(l:pattern)
-    silent execute ':call setline(8, l:processo)'
-    let l:processo = 'RADOCs: '
-    silent execute ':call setline(9, l:processo)'
-    let l:processo = 'Parecer da CAD: '
-    silent execute ':call setline(10, l:processo)'
-    silent! execute "11,$d"
-endfunction
-
-" Mapeie a função para um comando no Vim
-command! -nargs=1 InsertLines call InsertLines(<q-args>)
-" Aqui usamos <Leader>i para inserir 10 linhas vazias
-nnoremap <Leader>x :call InsertLines(10)<CR>
-
-
-" Função para encontrar a correspondência da expressão regular
+" ==============================================================================
+" FUNÇÃO AUXILIAR - VERSÃO FINAL (COM LIMPEZA PROFUNDA)
+" Remove TODOS os caracteres não-imprimíveis antes da busca.
+" ==============================================================================
 function! FindMatch(pattern)
-
-    " Move o cursor para o início do buffer
-    silent execute 'normal! gg'
-
-    " Procura pela expressão regular
-    let l:match_found = search(a:pattern, 'W')
-
-    " Se encontrar uma correspondência
-    if l:match_found
-        " Move o cursor para o início da correspondência
-        let l:match_start = col('.')
-        let l:line_content = getline('.')
-
-        " Captura a parte correspondente da linha
-        let l:match_text = matchstr(l:line_content, a:pattern)
-
-        " Retorna o texto correspondente
-        return l:match_text
-    else
-        " Se não encontrar, retorna uma mensagem
-        return 'No match found'
-    endif
+  let l:conteudo_buffer = join(getline(1, '$'), "\n")
+  let l:conteudo_limpo = substitute(l:conteudo_buffer, '[^[:print:]\t\n]', '', 'g')
+  return matchstr(l:conteudo_limpo, a:pattern)
 endfunction
 
-function! InsertLines2(num)
+" ==============================================================================
+" FUNÇÃO PRINCIPAL - VERSÃO FINAL E CORRIGIDA
+" Extrai todos os dados, incluindo Lotação e Unidade separadamente.
+" ==============================================================================
+function! Progressao()
+    " 1. Adiciona 15 linhas em branco no topo.
+    call append(0, repeat([''], 15))
+
+    " 2. Extrai e insere as informações.
+
+    " Processo
+    let l:pattern = '\vProcesso nº\s+\zs\d{5}\.\d{6}\/\d{4}-\d{2}'
+    let l:match = FindMatch(l:pattern)
+    silent call setline(1, '### ' . (empty(l:match) ? '' : l:match))
+
+    " Nome
+    let l:pattern = '\v\c(Professora?|Servidora?|(a|o) Docente)\s+\zs[^,]+'
+    let l:match = FindMatch(l:pattern)
+    silent call setline(2, 'Docente: ' . (empty(l:match) ? '' : l:match))
+
+    " Última Progressão
+    let l:pattern = '\v(contar de\s+)\zs\d{2}\/\d{2}\/\d{4}'
+    let l:match = FindMatch(l:pattern)
+    silent call setline(3, 'Última Progressão: ' . (empty(l:match) ? '' : l:match))
+
+    " Classe Atual
+    let l:pattern = '\v\cClasse\s*:\s*\zs[A-D]'
+    let l:match = FindMatch(l:pattern)
+    silent call setline(4, 'Classe Atual: ' . (empty(l:match) ? '' : l:match))
+
+    " Nível Atual (Padrão)
+    let l:pattern = '\v\cPadrão\s*:\s*\zs\d+'
+    let l:match = FindMatch(l:pattern)
+    silent call setline(5, 'Nível Atual: ' . (empty(l:match) ? '' : l:match))
+
+    " Titulação
+    let l:pattern = '\vTITULACAO : ([^\n]*- )?\zs[A-Za-z]+' 
+    let l:match = FindMatch(l:pattern)
+    silent call setline(6, 'Titulação: ' . (empty(l:match) ? '' : l:match))
+
+    " Lotação (a sigla, ex: FE)
+    let l:pattern = '\v\cLotação\s*:\s*\d+\s*-\s*\zs\w+'
+    let l:match = FindMatch(l:pattern)
+    silent call setline(7, 'Lotação: ' . (empty(l:match) ? '' : l:match))
+
+    " Unidade (o nome completo)
+    let l:pattern = '\v(\d{5}\/\d{9}\s+-\s+)\zs[A-Za-z -.]+'
+    let l:match = FindMatch(l:pattern)
+    silent call setline(8, 'Unidade: ' . (empty(l:match) ? '' : l:match))
+
+    " 3. Preenche linhas estáticas.
+    silent call setline(9, 'RADOCs:')
+    silent call setline(10, 'Parecer da CAD:')
+    silent call setline(11, 'Doc CAD:')
+    silent call setline(12, 'Link CAD:')
+    silent call setline(13, 'Doc CD:')
+    silent call setline(14, 'Link CD:')
+    silent call setline(15, 'Parecer da CEA:')
+    silent call setline(16, 'Doc CEA:')
+    silent call setline(17, 'Link CEA:')
+    silent call setline(18, 'Tipo da Defesa:')
+
+    " 4. Limpa o texto original, que agora está da linha 16 para baixo.
+    silent! execute "19,$d"
+endfunction
+
+function! CAD(num)
     " Acrescenta 10 linhas em branco no arquivo
     silent execute '1put! =repeat(\"\n\", 12)'
     let l:pattern ='\vProcesso nº\s+\zs\d{5}\.\d{6}\/\d{4}-\d{2}'
@@ -123,7 +121,7 @@ function! InsertLines2(num)
 
     let l:processo = 'Última Progressão: ' . FindMatch(l:pattern)
     silent execute ':call setline(3, l:processo)'
-    let l:pattern ='\v(Classe:\s+)\zs\d{1}'
+    let l:pattern ='\v(Classe:\s+)\zs\[A-D]'
     let l:processo = 'Classe Atual: ' . FindMatch(l:pattern)
     silent execute ':call setline(4, l:processo)'
     let l:pattern ='\v(Padrão:\s+)\zs\d{3}'
@@ -158,54 +156,72 @@ function! InsertLines2(num)
 endfunction
 
 " Mapeie a função para um comando no Vim
-command! -nargs=1 InsertLines2 call InsertLines2(<q-args>)
+"command! -nargs=1 InsertLines2 call InsertLines2(<q-args>)
 " Aqui usamos <Leader>i para inserir 10 linhas vazias
-nnoremap <Leader>z :call InsertLines2(10)<CR>
+"nnoremap <Leader>z :call Titular(10)<CR>
 
 
 function! SaveStudentsToJson()
-    let students = []
-    let current_student = {}
-    " Percorre todas as linhas do buffer
-    for line in getline(1, '$')
-        " Caso 1: Captura o nome após o '>' (com ou sem espaços)
-        if line =~# '^\s*\t\s*\zs.*\zs'
-            " Novo aluno encontrado, se já existir um aluno atual, adiciona à lista
-            if !empty(current_student)
-                call add(students, current_student)
-            endif
-            " Captura o nome do aluno (tudo após o '>')
-            let current_student = { 'nome': matchstr(line, '^\s*>\s*\zs.*\zs') }
-        
-        " Caso 2: Quando a linha contém um nome após 'E-mail:', 'Usuário:', etc.
-        elseif line =~# 'E-mail:.*>\s*\zs.*\zs'
-            let current_student['nome'] = matchstr(line, '\zs.*\zs')
+  " Remover tudo antes da palavra Alunos
+  silent! execute "0,/Alunos (/ 0d"
 
-        elseif line =~# '^\s*Curso: \(.*\)$'
-            let current_student['curso'] = matchstr(line, '^\s*Curso: \(.*\)$')
-        elseif line =~# '^\s*Matrícula: \(\d\{9}\)$'
-            let current_student['matricula'] = matchstr(line, '^\s*Matrícula: \(\d\{9}\)$')
-        elseif line =~# '^\s*Usuário: \(.*\)$'
-            let current_student['usuario'] = matchstr(line, '^\s*Usuário: \(.*\)$')
-        elseif line =~# '^\s*E-mail: \(.*\)$'
-            let current_student['email'] = matchstr(line, '^\s*E-mail: \(.*\)$')
-        endif
-    endfor
+  " Deletar tudo apos o último aluno
+  execute "normal! G"
+  execute "normal! dd"
+  execute "normal! dd"
+  execute "normal! dd"
+  execute "normal! dd"
+  execute "normal! dd"
 
-    " Adiciona o último aluno à lista
-    if !empty(current_student)
-        call add(students, current_student)
-    endif
+  " Quebrar a linha com o nome do aluno
+  "  silent! %s/\(.*Mensagem\)\s*/\1\r\r/g
+  "  silent! :%s/ufg\.br/&\r/g
+  silent! :%s/ufg\.br\zs.\{-}\ze[A-ZÁÉÍÓÚÂÊÔÃÕÇ]/\r/g
 
-    " Converte a lista de alunos para JSON
-    let json_output = json_encode(students)
+  " Remover a tabulação antes do texto do usuário
+  " silent! :%s/\s*\t\[/[/g
 
-    " Salva em um arquivo
-    call writefile([json_output], 'alunos.json')
-    echo 'Arquivo alunos.json salvo com sucesso!'
+  " Eliminar as tabulacoes
+  " silent! :%s/\s*\t.*//
+  silent! :%s/^\%(\%uFFFC\|\s\|\t\)\+//
+  
+  " Eliminar as tabulacoes apos ufg.br
+  silent! :%s/\(ufg\.br\).*/\1/
+  silent! :%s/[ \t\u00A0\u200B\uFFFC]\+$//
+  " Adiconando [ no inicio da lista
+  silent! 0put ='['
+
+  "Capturar o nome do aluno
+  " silent! %s/\[Usuário \(On\|Off\)-Line no SIGAA\]\s*\(.*\)\s*(Perfil)/{\r  "nome": "\2",/g
+ 
+  " Substituir curso
+  silent! %s/C[uú]rso:\s\+\(.*\)/  "curso": "\1",/g
+
+  " Substituir matrícula
+  silent! %s/Matr[ií]cula:\s\+\(.*\)/  "matricula": "\1",/g
+
+  " Substituir usuário
+  silent! %s/Usu[aá]rio:\s\+\(.*\)/  "usuario": "\1",/g
+
+  " Substituir e-mail e fechar objeto JSON
+  silent! %s/E[-‑–]mail:\s\+\(.*\)/  "email": "\1"\r},/g
+  
+  " Adicionando o nome
+  silent! %s/^\([A-ZÁÉÍÓÚÂÊÔÃÕÇ].*\)$/{\r  "nome": "\1",/g
+  
+  " Eliminando as linhas nulas
+  " silent! :g/^\s*$/d
+
+  " Fechando o ultimo bloco
+  " silent! $put ='}'
+
+  " Fechando a lista
+  silent! :$s/},$/}\r]/
+
+  " Verificar JSON com jq
+  silent! !jq . %
+
 endfunction
 
-command! SaveStudents call SaveStudentsToJson()
-
-
+"command! SaveStudents call SaveStudentsToJson()
 

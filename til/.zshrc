@@ -98,9 +98,13 @@ fi
 # ------------------------------------------------------------------------------
 [[ -f ~/.zsh_aliases ]] && source ~/.zsh_aliases
 
-setxkbmap -model abnt -layout us -variant intl
+# setxkbmap -model abnt -layout us -variant intl
+setxkbmap br
 # ------------------------------------------------------------------------------
 # ⛔ Desliga o screensaver e o gerenciamento de energia da tela
 # ------------------------------------------------------------------------------
 xset s off >/dev/null 2>&1
 xset -dpms  >/dev/null 2>&1
+
+# Created by `pipx` on 2025-09-02 12:57:23
+export PATH="$PATH:/home/max/.local/bin"

@@ -66,12 +66,12 @@ alias teclado="setxkbmap -model abnt2 -layout us -variant intl"
 # ====================
 # Python / Django com Poetry
 # ====================
-alias blue="poetry run blue"
-alias isort="poetry run isort"
-alias django_proj="poetry run django-admin startproject"
-alias django_app="poetry run django-admin startapp"
-alias venv='python3 -m venv venv && source venv/bin/activate'
-alias act='source venv/bin/activate'
+# alias blue="poetry run blue"
+# alias isort="poetry run isort"
+# alias django_proj="poetry run django-admin startproject"
+# alias django_app="poetry run django-admin startapp"
+alias venv='python3 -m venv .venv && source .venv/bin/activate'
+alias act='source .venv/bin/activate'
 alias deact='deactivate'
 
 # ====================
@@ -133,3 +133,9 @@ compilar() {
   pdflatex -synctex=1 "$nome.tex" && pgrep -f "zathura $nome.pdf" >/dev/null || zathura "$nome.pdf" &
 }
 
+# ====================
+# Diretórios muito utilizados
+# ====================
+alias cppd='cd ~/projetos/python_Proj/cppd'
+alias cad='cd ~/Dropbox/maxs/cad'
+alias dow='cd ~/Downloads/'

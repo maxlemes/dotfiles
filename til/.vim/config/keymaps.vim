@@ -31,3 +31,8 @@ nnoremap ]b :bNext<CR>
 nnoremap [B :bfirst<CR>
 nnoremap ]B :blast<CR>
 
+" Atalhos para funções criadas por mim em ~/.vim/config/scripts.vim
+nnoremap <Leader>a :call SaveStudentsToJson()<CR>
+nnoremap <Leader>p :call Progressao()<CR>
+nnoremap <Leader>c :call CAD(10)<CR>
+

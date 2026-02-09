@@ -1,3 +1,6 @@
-# Configura o teclado para ABNT2
-setxkbmap -model abnt -layout us -variant intl
-
+# Configura o teclado Internacional para acentos e cedilha
+# setxkbmap -model abnt -layout us -variant intl
+# Inicia o hotkey daemon em segundo plano
+sxhkd &
+# Teclado ABNT2 pt_br
+setxkbmap br &
